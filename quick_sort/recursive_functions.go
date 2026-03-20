@@ -37,3 +37,35 @@ func Find_Max(arr []int) int {
 	return resOfRest
 
 }
+
+// ex:
+// 10, 5, 2, 3
+
+// Less pivot greater
+// [5, 2, 3] [10] []
+//     |
+// [2, 3][5][]
+//   |
+// [2][3]
+
+func Quick_Sort(arr []int) []int {
+
+	if len(arr) < 2 {
+		return arr
+	}
+
+	var less []int
+	pivot := arr[0]
+	var greater []int
+
+	for _, v := range arr[1:] {
+		if v <= pivot {
+			less = append(less, v)
+		} else {
+			greater = append(greater, v)
+		}
+	}
+	result := append(Quick_Sort(less), pivot)
+	result = append(result, Quick_Sort(greater)...)
+	return result
+}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -29,4 +30,13 @@ func TestFind_Max(t *testing.T) {
 		t.Errorf("got %d, wanted %d", got, want)
 	}
 
+}
+
+func TestQuick_Sort(t *testing.T) {
+	got := Quick_Sort([]int{5, 4, 1, 3, 2})
+	want := []int{1, 2, 3, 4, 5}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got %v, wanted %v", got, want)
+	}
 }
