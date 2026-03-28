@@ -6,19 +6,45 @@ var List = map[string][]string{
 	// First layer
 	"Me": {"Ivy", "John", "Mandy"},
 	// Second layer
-	// "Ivy":   {""},
+	"Ivy":   {""},
 	"John":  {"Josh"},
 	"Mandy": {"Josh", "Pug", "Bob"},
 	// Third layer
-	// "Jenny": {""},
+	"Jenny": {""},
 }
 
 var check_List []string
 
-// var searched_List []string
+var searched_List map[string]bool
+
+func AlreadySearch(name string) {
+	if searched_List == nil {
+		searched_List = make(map[string]bool)
+	}
+	// note searched person
+	searched_List[name] = true
+}
+
+func IsAlreadySearched(name string) bool {
+	if searched_List == nil {
+		return false
+	}
+	return searched_List[name]
+}
+
+func ShouldSkip(name string) bool {
+	// skip empty string
+	if name == "" {
+		return true
+	}
+	// skip if already searched
+	if IsAlreadySearched(name) {
+		return true
+	}
+	return false
+}
 
 func AlienVerifier(name string) bool {
-	// name = check_List[0]
 
 	if name[len(name)-1:] == "g" {
 		return true
@@ -30,17 +56,22 @@ func BFS() string {
 	check_List = append(check_List, List["Me"]...)
 
 	for len(check_List) > 0 {
-		// fmt.Println(check_List[0])
-		// fmt.Println(check_List)
+
+		// skip if should be skipped (empty or already searched)
+		if ShouldSkip(check_List[0]) {
+			check_List = check_List[1:]
+			continue
+		}
 
 		if AlienVerifier(check_List[0]) == true {
 			return check_List[0] + " is Alien!"
 		}
+
+		// add searched person to searched_List
+		AlreadySearch(check_List[0])
+
 		// add new list to queue
 		check_List = append(check_List, List[check_List[0]]...)
-
-		// // add searched person to searched_List
-		// searched_List = append(searched_List, check_List[0])
 
 		// remove first person from queue
 		check_List = check_List[1:]
@@ -50,29 +81,7 @@ func BFS() string {
 }
 
 func main() {
-	// BFS()
-
-	// fmt.Println(check_List)
-	// fmt.Println(check_List[0])
-	// // x := check_List[0]
-	// xy := check_List[0][len(check_List[0])-1:]
-	// fmt.Println(xy)
-
-	fmt.Println(BFS())
-
+	result := BFS()
+	// print result
+	fmt.Println(result)
 }
-
-// ```
-
-// list
-
-// 1. add "Me" List
-
-// 2. verify "Me" List[],
-// if True -> return
-// else -> add a list by someone been removed
-
-// 3. verify List[] again
-
-// 4. End
-// ```
