@@ -13,6 +13,13 @@ var List = map[string][]string{
 	"Jenny": {""},
 }
 
+func isAlien(name string) bool {
+	if name[len(name)-1:] == "g" {
+		return true
+	}
+	return false
+}
+
 var check_List []string
 
 var searched_List map[string]bool
@@ -44,13 +51,13 @@ func ShouldSkip(name string) bool {
 	return false
 }
 
-func AlienVerifier(name string) bool {
+// func AlienVerifier(name string) bool {
 
-	if name[len(name)-1:] == "g" {
-		return true
-	}
-	return false
-}
+// 	if name[len(name)-1:] == "g" {
+// 		return true
+// 	}
+// 	return false
+// }
 
 func BFS() string {
 	check_List = append(check_List, List["Me"]...)
